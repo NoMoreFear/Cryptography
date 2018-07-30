@@ -3,22 +3,8 @@ import time
 from Elliptic_Curve import gcdex
 
 '''
-Prime_number(n)
-функция возвращает список простых чисел от m до n
+проверка числа на простоту
 '''
-def Prime_numbers(m, n):
-    a = list(range(n + 1))
-    a[1] = 0
-    lst = list()
-    i = 2
-    while i <= n:
-        if a[i] != 0:
-            lst.append(a[i])
-            for j in range(i**2, n + 1, i):
-                a[j] = 0
-        i += 1
-    return [i for i in lst if i > m]
-
 def isPrime(N):
     if N == 2:
         return True
@@ -29,22 +15,6 @@ def isPrime(N):
         if pow(n, N-1, N) != 1: #тест Ферма
             return False
     return True
-
-'''
-Функция Эйлера phi(n)
-'''
-def Euler_phi(n):
-    result = n
-    i = 2
-    while i**2 <= n:
-        if n % i == 0:
-            while n % i == 0:
-                n //= i
-            result -= result//i
-        i += 1
-    if n > 1:
-        result -= result//n
-    return result
 
 '''
 Первообразный корень g от m это:
@@ -68,13 +38,9 @@ def Primitive_root(p):
 '''
 class Elgamal:
     def __init__(self, length_of_key):
-        #self.prime = rand.choice(Prime_numbers(2003, 55296))
-        '''на 2003 заканчиваются русские символы. после 55296 начинаются суррогатные пары, которые запрещены'''
-        #self.prime = 6277101735386680763835789423207666416083908700390324961279
         while True:
             self.prime = rand.getrandbits(length_of_key)
             if isPrime(self.prime):
-                print("Done!")
                 break
         self.alpha = Primitive_root(self.prime)
         self.private = rand.randint(2, self.prime - 1)
