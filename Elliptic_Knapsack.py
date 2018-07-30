@@ -39,17 +39,13 @@ class Ell_Knapsack:
 
         n = 6277101735386680763835789423176059013767194773182842284081 # |E(G)|
 
+        # close_key
         self.P = randint(1, n - 1) * Point(self.crv, #curve
                                                 602046282375688656758213480587526111916698976636884684818,    # Gx
                                                 174050332293622031404857552280219410364023488927386650641)    # Gy
 
-        #self.k = randint(1, (n - 1) // sum([2**i for i in range(1, self.length)])) # close_key
-        self.k = (n - 1) // sum([2**i for i in range(1, self.length)]) + 10
-        self.AP = tuple([self.k*pow(2, (i-1))*self.P for i in range(1, self.length + 1)])    # close_key
-        #self.AP = tuple([self.P*i for i in self.a]) # open_key
-        #self.R = self.P*choice(self.a)  # open_key
-        #self.d = randint(2, self.n - 1)     # close_key
-        #self.S = self.d * self.R    # open_key
+        self.k = (n - 1) // sum([2**i for i in range(1, self.length)])  #close_key
+        self.AP = tuple([self.k*pow(2, (i-1))*self.P for i in range(1, self.length + 1)])    # open_key
 
     def Encrypt(self, M):   # M - двоичный вектор
         summa = Point(self.crv, inf, inf)
@@ -57,17 +53,11 @@ class Ell_Knapsack:
             if M[i] != 0:
                 summa += self.AP[i]
         return summa.x, summa.y
-        #t = randint(2, self.crv.p - 1)
-        #C1 = t*self.R
-        #C2 = summa + t*self.S
-        #return C1, C2
 
-    def Decrypt(self, X, Y): #C1, C2):
+    def Decrypt(self, X, Y):
         C = Point(self.crv, X, Y)
         M = list()
-        #C = C2 - self.d*C1
         for i in range(self.length-1, -1, -1):
-            #XE = C - self.a[i]*self.P
             XE = C - self.AP[i]
             flag = True
             for j in range(pow(2, self.length-1)):
@@ -120,20 +110,3 @@ if __name__ == '__main__':
     decrypt.write("\n---Decrypt for %s seconds---" % time_to_decrypt)
     crypt.close()
     decrypt.close()
-
-# mashine = Ell_Knapsack()
-# M = chr(getrandbits(8))
-# print(M)
-# M = Sym_to_bin(M)
-# print(M)
-# start_time = time.time()
-# #C1, C2 = mashine.Encrypt(M)
-# C = mashine.Encrypt(M)
-# print(C)
-# #M = mashine.Decrypt(C1, C2)
-# M = mashine.Decrypt(C)
-# print("--- %s seconds ---" % (time.time() - start_time))
-# print(M)
-# print(Bin_to_sym(M))
-
-
