@@ -10,17 +10,12 @@ def gcdex(a, b):
         return d, y, x - y * (a // b)
 
 def Sym_to_bin(sym, length):
-    symbol = list(bin(ord(sym)))
-    symbol = [int(symbol[i]) for i in range(2, len(symbol))]
-    while len(symbol) < length:
-        symbol.insert(0, 0)
+    symbol = list(map(int, bin(ord(sym)[2:].zfill(length))))
     return symbol
 
 def Bin_to_sym(bin):
     bin.reverse()
-    sym = '0b'
-    for i in range(len(bin)):
-        sym += str(bin[i])
+    sym = '0b' + ''.join(list(map(str, bin)))
     return chr(int(sym, 2))
 
 '''
@@ -40,10 +35,8 @@ class Knapsack:
         while gcdex(self.w, self.m)[0] != 1:
             self.w = randint(1, self.m - 1)
 
-        #self.pi = sample([i for i in range(n)], n)
         self.alpha = list()
         for i in range(n):
-            #self.alpha.append((self.w * self.b[self.pi[i]]) % self.m)
             self.alpha.append((self.w * self.b[i]) % self.m)
 
     def Encrypt(self, m):
