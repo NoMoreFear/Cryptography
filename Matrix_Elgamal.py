@@ -22,7 +22,6 @@ class Mtr_Elgamal:
         self.powA = self.Pow_matrix(self.A, self.alpha)
 
     def Mult_matrix(self, A, B):
-        #start = time.time()
         ans = list()
         for i in range(self.size):
             ans.append(list())
@@ -31,7 +30,6 @@ class Mtr_Elgamal:
                 for k in range(self.size):
                     ans[i][j] += A[i][k] * B[k][j]
                 ans[i][j] %= self.prime
-        #print(time.time() - start)
         return ans
 
     def Pow_matrix(self, A, n):
@@ -135,6 +133,7 @@ if __name__ == '__main__':
             for j in range(len(enc_sym[i])):
                 decrypt.write(chr(enc_sym[i][j]))
         '''так до конца документа'''
+        
     print("---Decrypt for %s seconds---" % time_to_decrypt)
     decrypt.write('\n\n---Matrix Elgamal---')
     decrypt.write('\n---Length of key %s bits---' % length_of_key)
